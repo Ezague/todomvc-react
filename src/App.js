@@ -52,10 +52,9 @@ function App() {
         <TodoList todos={todos} toggleTodo={toggleTodo} />
         <input class="new-todo" ref={todoNameRef} onKeyDown={handleKeyDown} placeholder="What needs to be done?" type="text" />
         <button onClick={handleClearTodos}>Clear completed</button>
-        <div>{todos.filter(todo => !todo.complete).length} items left</div>
+        <footer>{todos.filter(todo => !todo.complete).length} items left</footer>
       </section>
     </>
-
   )
 }
 
