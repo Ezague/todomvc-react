@@ -25,9 +25,15 @@ function App() {
     setTodos(newTodos)
   }
 
-  function handleAddTodo(e) {
+  function toggleAllTodos() {
+    const newTodos = [...todos]
+    const allCompleted = newTodos.filter(todo => todo.complete).length === newTodos.length;
+    setTodos(newTodos.map(todo => ({ ...todo, complete: !allCompleted })))
+  }
+
+  function handleAddTodo() {
     const name = todoNameRef.current.value
-    if (name === '') return
+    if (name.trim().length === 0) return
     setTodos(previousTodos => {
       return [...previousTodos, { id: uuidv4(), name: name, complete: false }]
     })
@@ -45,14 +51,22 @@ function App() {
     }
   }
 
+  const numCompleted = todos.filter(todo => todo.complete).length
+  const numNotCompleted = todos.filter(todo => !todo.complete).length
+  const pluralised = numNotCompleted === 1 ? "item" : "items"
+  const footerText = `${numNotCompleted} ${pluralised} left`
+
   return (
     <>
-      <section class="todoapp">
+      <section className="todoapp">
         <h1>Todos</h1>
-        <TodoList todos={todos} toggleTodo={toggleTodo} />
-        <input class="new-todo" ref={todoNameRef} onKeyDown={handleKeyDown} placeholder="What needs to be done?" type="text" />
-        <button onClick={handleClearTodos}>Clear completed</button>
-        <footer>{todos.filter(todo => !todo.complete).length} items left</footer>
+        <section className="main">
+          <TodoList todos={todos} toggleTodo={toggleTodo} />
+          <input className="new-todo" ref={todoNameRef} onKeyDown={handleKeyDown} placeholder="What needs to be done?" type="text" />
+        </section>
+        <button onClick={toggleAllTodos}>Toggle all todos</button>
+        {numCompleted > 0 && <button onClick={handleClearTodos}>Clear completed</button>}
+        <footer>{footerText}</footer>
       </section>
     </>
   )

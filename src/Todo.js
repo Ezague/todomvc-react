@@ -6,10 +6,9 @@ export default function Todo({ todo, toggleTodo }) {
     }
     return (
         <div>
-            <label>
-                <input type="checkbox" checked={todo.complete} onChange={handleTodoClick} />
-                {todo.name}
-            </label>
+            <input className="toggle" type="checkbox" checked={todo.complete} onChange={handleTodoClick} />
+            <label>{todo.name}</label>
+            {todo.name}
         </div>
     )
 }
