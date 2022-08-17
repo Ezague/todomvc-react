@@ -53,21 +53,27 @@ function App() {
 
   const numCompleted = todos.filter(todo => todo.complete).length
   const numNotCompleted = todos.filter(todo => !todo.complete).length
-  const pluralised = numNotCompleted === 1 ? "item" : "items"
+  const pluralised = numNotCompleted === 1 ? 'item' : 'items'
   const footerText = `${numNotCompleted} ${pluralised} left`
 
   return (
     <>
-      <section className="todoapp">
-        <h1>Todos</h1>
-        <section className="main">
-          <TodoList todos={todos} toggleTodo={toggleTodo} />
-          <input className="new-todo" ref={todoNameRef} onKeyDown={handleKeyDown} placeholder="What needs to be done?" type="text" />
+      <body>
+        <section className="todoapp">
+          <h1>todos</h1>
+          <section className="main">
+            <TodoList todos={todos} toggleTodo={toggleTodo} />
+            <input className="new-todo" ref={todoNameRef} onKeyDown={handleKeyDown} placeholder="What needs to be done?" type="text" autoFocus />
+          </section>
+          {numCompleted > 0 && <button onClick={handleClearTodos}>Clear completed</button>}
+          <footer>
+            <ul className="filters">
+              <button onClick={toggleAllTodos}>Toggle all todos</button>
+              <span className="todo-count">{footerText}</span>
+            </ul>
+          </footer>
         </section>
-        <button onClick={toggleAllTodos}>Toggle all todos</button>
-        {numCompleted > 0 && <button onClick={handleClearTodos}>Clear completed</button>}
-        <footer>{footerText}</footer>
-      </section>
+      </body>
     </>
   )
 }
