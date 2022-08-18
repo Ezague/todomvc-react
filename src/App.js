@@ -59,18 +59,18 @@ function App() {
   return (
     <>
       <section className="todoapp">
-        <h1>todos</h1>
+        <header className="header">
+          <h1>todos</h1>
+          <input className="new-todo" ref={todoNameRef} onKeyDown={handleKeyDown} placeholder="What needs to be done?" type="text" autoFocus />
+        </header>
         <section className="main">
-          <header className="header">
-            <input className="new-todo" ref={todoNameRef} onKeyDown={handleKeyDown} placeholder="What needs to be done?" type="text" autoFocus />
-          </header>
           <ul className="todo-list">
             <div className="view">
               <TodoList todos={todos} toggleTodo={toggleTodo} />
             </div>
           </ul>
         </section>
-        <footer className='footer'>
+        <footer className="footer">
           <ul className="filters">
             <span className="todo-count">{footerText}</span>
             <button onClick={toggleAllTodos}>Toggle all todos</button>
