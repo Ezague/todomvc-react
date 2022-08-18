@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { NavLink } from 'react-router-dom'
 import TodoList from './TodoList';
-import './App.css';
+import '../node_modules/todomvc-app-css/index.css'
+import '../node_modules/todomvc-common/base.css'
 import { v4 as uuidv4 } from 'uuid';
 
 const LOCAL_STORAGE_KEY = 'todos-react'
@@ -21,62 +23,81 @@ function App() {
   function toggleTodo(id) {
     const newTodos = [...todos]
     const todo = newTodos.find(todo => todo.id === id)
-    todo.complete = !todo.complete
+    todo.completed = !todo.completed
     setTodos(newTodos)
   }
 
   function toggleAllTodos() {
     const newTodos = [...todos]
-    const allCompleted = newTodos.filter(todo => todo.complete).length === newTodos.length;
-    setTodos(newTodos.map(todo => ({ ...todo, complete: !allCompleted })))
+    const allCompleted = newTodos.filter(todo => todo.completed).length === newTodos.length;
+    setTodos(newTodos.map(todo => ({ ...todo, completed: !allCompleted })))
   }
 
   function handleAddTodo() {
-    const name = todoNameRef.current.value
-    if (name.trim().length === 0) return
+    const title = todoNameRef.current.value
+    if (title.trim().length === 0) return
     setTodos(previousTodos => {
-      return [...previousTodos, { id: uuidv4(), name: name, complete: false }]
+      return [...previousTodos, { id: uuidv4(), title: title, completed: false }]
     })
     todoNameRef.current.value = null
   }
 
+  function handleDeleteTodo(id) {
+    setTodos(previousTodos => previousTodos.filter(todo => todo.id !== id))
+  }
+
   function handleClearTodos() {
-    const newTodos = todos.filter(todo => !todo.complete)
+    const newTodos = todos.filter(todo => !todo.completed)
     setTodos(newTodos)
   }
 
   const handleKeyDown = e => {
-    if (e.keyCode === 13) {
+    var ENTER_KEY = 13;
+    if (e.keyCode === ENTER_KEY) {
       handleAddTodo()
     }
   }
 
-  const numCompleted = todos.filter(todo => todo.complete).length
-  const numNotCompleted = todos.filter(todo => !todo.complete).length
+  const num = todos.filter(todo => todo).length
+  const numCompleted = todos.filter(todo => todo.completed).length
+  const numNotCompleted = todos.filter(todo => !todo.completed).length
   const pluralised = numNotCompleted === 1 ? 'item' : 'items'
-  const footerText = `${numNotCompleted} ${pluralised} left`
 
   return (
     <>
       <section className="todoapp">
         <header className="header">
           <h1>todos</h1>
-          <input className="new-todo" ref={todoNameRef} onKeyDown={handleKeyDown} placeholder="What needs to be done?" type="text" autoFocus />
+          <input className="new-todo" ref={todoNameRef} onKeyDown={handleKeyDown} placeholder="What needs to be done?" contentEditable="plaintext-only" autoFocus />
         </header>
         <section className="main">
+          <input id="toggle-all" className="toggle-all" type="checkbox" onChange={toggleAllTodos} />
+          <label htmlFor="toggle-all"></label>
           <ul className="todo-list">
             <div className="view">
-              <TodoList todos={todos} toggleTodo={toggleTodo} />
+              <TodoList todos={todos} toggleTodo={toggleTodo} deleteTodo={handleDeleteTodo} />
             </div>
           </ul>
         </section>
-        <footer className="footer">
-          <ul className="filters">
-            <span className="todo-count">{footerText}</span>
-            <button onClick={toggleAllTodos}>Toggle all todos</button>
-            {numCompleted > 0 && <button className="clear-Completed" onClick={handleClearTodos}>Clear completed</button>}
-          </ul>
-        </footer>
+        {num > 0 && (
+          <footer className="footer">
+            <span className="todo-count">{numNotCompleted} <strong>{pluralised}</strong> left</span>
+            <ul className="filters">
+              <li>
+                <a href="#/" className="selected">All</a>
+              </li>
+              <span />
+              <li>
+                <a href="#/active">Active</a>
+              </li>
+              <span />
+              <li>
+                <a href="#/completed">Completed</a>
+              </li>
+            </ul>
+            {numCompleted > 0 && <button className="clear-completed" onClick={handleClearTodos}>Clear completed</button>}
+          </footer>
+        )}
       </section>
     </>
   )
