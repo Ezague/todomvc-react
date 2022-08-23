@@ -3,12 +3,13 @@ import '../node_modules/todomvc-app-css/index.css'
 import '../node_modules/todomvc-common/base.css'
 
 export default function Todo({ todo, toggleTodo, deleteTodo }) {
+
     function handleTodoClick() {
         toggleTodo(todo.id)
     }
 
     const handleDoubleClick = () => {
-        console.log(`double click name: ${todo.title}, id: ${todo.id}`)
+        console.log(`Todo: ${todo.title} was double clicked`)
     }
 
     function handleDestroyClick() {

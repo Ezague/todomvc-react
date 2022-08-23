@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { NavLink } from 'react-router-dom'
 import TodoList from './TodoList';
+import { NavLink, BrowserRouter as Router, useParams } from 'react-router-dom';
+//useMemo
 import '../node_modules/todomvc-app-css/index.css'
 import '../node_modules/todomvc-common/base.css'
 import { v4 as uuidv4 } from 'uuid';
@@ -52,53 +53,55 @@ function App() {
   }
 
   const handleKeyDown = e => {
-    var ENTER_KEY = 13;
+    const ENTER_KEY = 13;
     if (e.keyCode === ENTER_KEY) {
       handleAddTodo()
     }
   }
 
-  const num = todos.filter(todo => todo).length
+  const num = todos.length;
   const numCompleted = todos.filter(todo => todo.completed).length
   const numNotCompleted = todos.filter(todo => !todo.completed).length
   const pluralised = numNotCompleted === 1 ? 'item' : 'items'
 
   return (
     <>
-      <section className="todoapp">
-        <header className="header">
-          <h1>todos</h1>
-          <input className="new-todo" ref={todoNameRef} onKeyDown={handleKeyDown} placeholder="What needs to be done?" contentEditable="plaintext-only" autoFocus />
-        </header>
-        <section className="main">
-          <input id="toggle-all" className="toggle-all" type="checkbox" onChange={toggleAllTodos} />
-          <label htmlFor="toggle-all"></label>
-          <ul className="todo-list">
-            <div className="view">
-              <TodoList todos={todos} toggleTodo={toggleTodo} deleteTodo={handleDeleteTodo} />
-            </div>
-          </ul>
-        </section>
-        {num > 0 && (
-          <footer className="footer">
-            <span className="todo-count">{numNotCompleted} <strong>{pluralised}</strong> left</span>
-            <ul className="filters">
-              <li>
-                <a href="#/" className="selected">All</a>
-              </li>
-              <span />
-              <li>
-                <a href="#/active">Active</a>
-              </li>
-              <span />
-              <li>
-                <a href="#/completed">Completed</a>
-              </li>
+      <Router>
+        <section className="todoapp">
+          <header className="header">
+            <h1>todos</h1>
+            <input className="new-todo" ref={todoNameRef} onKeyDown={handleKeyDown} placeholder="What needs to be done?" contentEditable="plaintext-only" autoFocus />
+          </header>
+          <section className="main">
+            <input id="toggle-all" className="toggle-all" type="checkbox" onChange={toggleAllTodos} />
+            <label htmlFor="toggle-all"></label>
+            <ul className="todo-list">
+              <div className="view">
+                <TodoList todos={todos} toggleTodo={toggleTodo} deleteTodo={handleDeleteTodo} />
+              </div>
             </ul>
-            {numCompleted > 0 && <button className="clear-completed" onClick={handleClearTodos}>Clear completed</button>}
-          </footer>
-        )}
-      </section>
+          </section>
+          {num > 0 && (
+            <footer className="footer">
+              <span className="todo-count">{numNotCompleted} <strong>{pluralised}</strong> left</span>
+              <ul className="filters">
+                <li>
+                  <NavLink to="/" exact className={({ isActive }) => isActive ? 'selected' : null}>All</NavLink>
+                </li>
+                <span />
+                <li>
+                  <NavLink to="/active" className={({ isActive }) => isActive ? 'selected' : null}>Active</NavLink>
+                </li>
+                <span />
+                <li>
+                  <NavLink to="/completed" className={({ isActive }) => isActive ? 'selected' : null}>Completed</NavLink>
+                </li>
+              </ul>
+              {numCompleted > 0 && <button className="clear-completed" onClick={handleClearTodos}>Clear completed</button>}
+            </footer>
+          )}
+        </section>
+      </Router>
     </>
   )
 }
