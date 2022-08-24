@@ -9,7 +9,7 @@ export default function Todo({ todo, toggleTodo, deleteTodo }) {
     }
 
     const handleDoubleClick = () => {
-        console.log(`Todo: ${todo.title} was double clicked`)
+        console.log('double click on: ' + todo.title + ' with id: ' + todo.id)
     }
 
     function handleDestroyClick() {
