@@ -9,7 +9,6 @@ export default function Todo({ todo, updateTodo, setTodoEditable }) {
         const ENTER_KEY = 13
         const ESC_KEY = 27
         if (e.keyCode === ENTER_KEY) {
-            //check if todo id matches the id of the todo that is being edited
             updateTodo(todo.id, title)
             setTodoEditable()
         } else if (e.keyCode === ESC_KEY) {
