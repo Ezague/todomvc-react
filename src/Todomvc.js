@@ -43,6 +43,13 @@ function Todomvc() {
         setTodos(newTodos)
     }
 
+    function updateTodo(id, title) {
+        const newTodos = [...todos]
+        const todo = newTodos.find(todo => todo.id === id)
+        todo.title = title
+        setTodos(newTodos)
+    }
+
     function toggleAllTodos() {
         const newTodos = [...todos]
         const allCompleted = newTodos.filter(todo => todo.completed).length === newTodos.length;
@@ -90,7 +97,7 @@ function Todomvc() {
                 <label htmlFor="toggle-all"></label>
                 <ul className="todo-list">
                     <div className="view">
-                        <TodoList todos={filterList} toggleTodo={toggleTodo} deleteTodo={handleDeleteTodo} />
+                        <TodoList todos={filterList} toggleTodo={toggleTodo} deleteTodo={handleDeleteTodo} updateTodo={updateTodo} />
                     </div>
                 </ul>
             </section>

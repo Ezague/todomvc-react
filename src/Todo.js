@@ -1,29 +1,21 @@
-import React from 'react'
-import '../node_modules/todomvc-app-css/index.css'
-import '../node_modules/todomvc-common/base.css'
+import React, { useState } from "react";
+import TodoView from "./TodoView";
+import TodoEdit from "./TodoEdit";
 
-export default function Todo({ todo, toggleTodo, deleteTodo }) {
+export default function Todo({ todo, toggleTodo, deleteTodo, updateTodo }) {
+    const [isEditing, setIsEditing] = useState(false);
 
-    function handleTodoClick() {
-        toggleTodo(todo.id)
-    }
-
-    const handleDoubleClick = () => {
-        console.log('double click on: ' + todo.title + ' with id: ' + todo.id + ' and completed: ' + todo.completed)
-    }
-
-    function handleDestroyClick() {
-        deleteTodo(todo.id)
+    const setTodoEditable = () => {
+        setIsEditing(!isEditing);
     }
 
     return (
-        <li className={todo.completed ? 'completed' : ''} onDoubleClick={handleDoubleClick}>
-            <div role="listitem">
-                <div className="view"></div>
-                <input className="toggle" type="checkbox" checked={todo.completed} onChange={handleTodoClick} />
-                <label>{todo.title}</label>
-                <button className="destroy" onClick={handleDestroyClick}></button>
-            </div>
-        </li>
+        <>
+            {
+                (isEditing)
+                    ? <TodoEdit todo={todo} toggleTodo={toggleTodo} deleteTodo={deleteTodo} updateTodo={updateTodo} setTodoEditable={setTodoEditable} />
+                    : <TodoView todo={todo} toggleTodo={toggleTodo} deleteTodo={deleteTodo} onDoubleClick={setTodoEditable} />
+            }
+        </>
     )
 }
