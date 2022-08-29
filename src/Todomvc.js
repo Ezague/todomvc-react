@@ -106,7 +106,7 @@ function Todomvc() {
                     <span className="todo-count">{numNotCompleted} <strong>{pluralised}</strong> left</span>
                     <ul className="filters">
                         <li>
-                            <NavLink to="/" exact className={({ isActive }) => isActive ? 'selected' : null}>All</NavLink>
+                            <NavLink to="/" exact="true" className={({ isActive }) => isActive ? 'selected' : null}>All</NavLink>
                         </li>
                         <span />
                         <li>
