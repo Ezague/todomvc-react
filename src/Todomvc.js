@@ -1,24 +1,26 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import TodoList from './TodoList';
+import Login from './Login';
+import { getTodos } from './services/todo.service';
 import { NavLink, useLocation } from 'react-router-dom';
-//useMemo
 import '../node_modules/todomvc-app-css/index.css'
 import '../node_modules/todomvc-common/base.css'
 import { v4 as uuidv4 } from 'uuid';
-
-const LOCAL_STORAGE_KEY = 'todos-react'
 
 function Todomvc() {
     const [todos, setTodos] = useState([])
     const todoNameRef = useRef()
 
     useEffect(() => {
-        const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
-        if (storedTodos) setTodos(storedTodos)
+        getTodos().then((todos) => {
+            setTodos(todos);
+        });
     }, [])
 
     useEffect(() => {
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos))
+        getTodos().then((todos) => {
+            setTodos(todos);
+        });
     }, [todos])
 
     const location = useLocation()
@@ -93,6 +95,7 @@ function Todomvc() {
                 <input className="new-todo" ref={todoNameRef} onKeyDown={handleKeyDown} placeholder="What needs to be done?" contentEditable="plaintext-only" autoFocus />
             </header>
             <section className="main">
+                <Login />
                 <input id="toggle-all" className="toggle-all" type="checkbox" onChange={toggleAllTodos} />
                 <label htmlFor="toggle-all"></label>
                 <ul className="todo-list">
