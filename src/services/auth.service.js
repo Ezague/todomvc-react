@@ -9,10 +9,18 @@ export const login = async (username, password) => {
         const access_token = response.data.access_token;
         localStorage.setItem('access_token', access_token);
     } catch (error) {
-        Promise.reject(error.data.message);
+        if (error.response.status === 401) {
+            return Promise.reject("Wrong credentials");
+        }
+        return Promise.reject(error.message);
     }
 }
 
-export const logout = () => {
-    return api.post('/logout');
+export const logout = async () => {
+    try {
+        await api.post('/logout');
+        localStorage.removeItem('access_token');
+    } catch (error) {
+        return Promise.reject(error.message);
+    }
 }
