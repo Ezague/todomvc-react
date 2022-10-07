@@ -32,7 +32,7 @@ export default function Login() {
                 </div>
                 <div className="button-container">
                     <input type="submit" className="login" value="Log ind"></input>
-                    <input className="userbutton" value="Opret bruger" onClick={() => navigate('/signup')}></input>
+                    <input type="submit" className="userbutton" value="Opret bruger" onClick={() => navigate('/signup')}></input>
                 </div>
             </form>
         </div>

@@ -9,18 +9,22 @@
 
  .username,
  .password {
+     width: 300px;
      height: 25px;
      border: 1px solid rgba(0, 0, 0, 0.2);
  }
 
  .login,
  .userbutton {
+     width: 150px;
+     height: 50px;
      margin-top: 10px;
      cursor: pointer;
      font-size: 15px;
      background: #a9a9a9;
      border: 1px solid #000000;
      color: #fff;
+     margin: 5px;
      padding: 10px 20px;
  }
 
