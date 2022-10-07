@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import TodoList from './TodoList';
-import { getTodos, addTodo, updateTodo, updateTodoCompleted, deleteTodo } from './services/todo.service';
+import { getTodos, addTodo, updateTodo, deleteTodo } from './services/todo.service';
 import { logout } from './services/auth.service';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import '../node_modules/todomvc-app-css/index.css'
@@ -38,12 +38,28 @@ function Todomvc() {
     function toggleTodo(id) {
         const newTodos = [...todos]
         const todo = newTodos.find(todo => todo.id === id)
-        updateTodoCompleted(id, todo.completed = !todo.completed).then(setTodos(newTodos))
+        updateTodo(id, { completed: !todo.completed }).then((updatedTodo) => {
+            setTodos((prevTodos) => {
+                return prevTodos.map((todo) => {
+                    if (updatedTodo.id === todo.id) {
+                        return updatedTodo;
+                    }
+                    return todo;
+                })
+            })
+        })
     }
 
     function handleUpdateTodo(id, title) {
-        updateTodo(id, title).then((todo) => {
-            setTodos([...todos.filter(todo => todo.id !== id), todo]);
+        updateTodo(id, { title }).then((updatedTodo) => {
+            setTodos((prevTodos) => {
+                return prevTodos.map((todo) => {
+                    if (updatedTodo.id === todo.id) {
+                        return updatedTodo;
+                    }
+                    return todo;
+                })
+            })
         })
     }
 
@@ -52,7 +68,16 @@ function Todomvc() {
         const allCompleted = newTodos.every(todo => todo.completed)
         newTodos.forEach((todo) => {
             todo.completed = !allCompleted;
-            updateTodoCompleted(todo.id, todo.completed);
+            updateTodo(todo.id, { completed: !allCompleted }).then((updatedTodo) => {
+                setTodos((prevTodos) => {
+                    return prevTodos.map((todo) => {
+                        if (updatedTodo.id === todo.id) {
+                            return updatedTodo;
+                        }
+                        return todo;
+                    })
+                })
+            })
         });
         setTodos(newTodos)
     }

@@ -5,6 +5,8 @@ import '../node_modules/todomvc-common/base.css'
 export default function Todo({ todo, updateTodo, setTodoEditable }) {
     const [title, setTitle] = useState(todo.title)
 
+    console.log(todo)
+
     const setTodoTitleOnKeystroke = (e) => {
         const ENTER_KEY = 13
         const ESC_KEY = 27

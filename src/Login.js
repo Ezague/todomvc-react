@@ -24,14 +24,15 @@ export default function Login() {
             <form>
                 <div className="input-container">
                     <label>Brugernavn</label>
-                    <input type="text" value={username} onChange={e => setUsername(e.target.value)} required />
+                    <input className="username" value={username} onChange={e => setUsername(e.target.value)} required />
                 </div>
                 <div className="input-container">
                     <label>Adgangskode</label>
-                    <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+                    <input className="password" value={password} onChange={e => setPassword(e.target.value)} required />
                 </div>
                 <div className="button-container">
-                    <input type="submit"></input>
+                    <input type="submit" className="login" value="Log ind"></input>
+                    <input className="userbutton" value="Opret bruger" onClick={() => navigate('/signup')}></input>
                 </div>
             </form>
         </div>

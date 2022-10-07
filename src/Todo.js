@@ -5,6 +5,8 @@ import TodoEdit from "./TodoEdit";
 export default function Todo({ todo, toggleTodo, deleteTodo, updateTodo }) {
     const [isEditing, setIsEditing] = useState(false);
 
+    console.log(isEditing)
+
     const setTodoEditable = () => {
         setIsEditing(!isEditing);
     }

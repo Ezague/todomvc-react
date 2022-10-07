@@ -7,13 +7,14 @@
      height: 300px;
  }
 
- input[type="text"],
- input[type="password"] {
+ .username,
+ .password {
      height: 25px;
      border: 1px solid rgba(0, 0, 0, 0.2);
  }
 
- input[type="submit"] {
+ .login,
+ .userbutton {
      margin-top: 10px;
      cursor: pointer;
      font-size: 15px;
@@ -23,7 +24,8 @@
      padding: 10px 20px;
  }
 
- input[type="submit"]:hover {
+ .login:hover,
+ .userbutton:hover {
      background: #eaeaea;
      color: #000;
  }

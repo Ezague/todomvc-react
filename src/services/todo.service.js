@@ -20,23 +20,9 @@ export const addTodo = async (title) => {
     }
 }
 
-export const updateTodo = async (id, title) => {
+export const updateTodo = async (id, values) => {
     try {
-        const response = await api.patch(`/todos/${id}`, {
-            title,
-            completed: false,
-        });
-        return response.data.data;
-    } catch (error) {
-        Promise.reject(error.data.message);
-    }
-}
-
-export const updateTodoCompleted = async (id, completed) => {
-    try {
-        const response = await api.patch(`/todos/${id}`, {
-            completed,
-        });
+        const response = await api.patch(`/todos/${id}`, values);
         return response.data.data;
     } catch (error) {
         Promise.reject(error.data.message);
